@@ -31,10 +31,11 @@ describe('auth routes', () => {
         });
       });
   });
+
   it('logs in a user', async() => {
     await User.create({ username: 'jennag', password: 'testPassword' });
 
-    request(app)
+    return request(app)
       .post('/api/v1/auth/login')
       .send({ username: 'jennag', password: 'testPassword' })
       .then(res => {
@@ -46,6 +47,7 @@ describe('auth routes', () => {
       });
   });
 
+
   it('fails to login a user with incorrect password', async() => {
     await User.create({ username: 'jennag', password: 'testPassword' });
 
@@ -54,7 +56,7 @@ describe('auth routes', () => {
       .send({ username: 'jennag', password: 'wrongPassword' })
       .then(res => {
         expect(res.body).toEqual({
-          message: 'Invalid username or password',
+          message: 'Invalid username/password',
           status: 403
         });
       });
